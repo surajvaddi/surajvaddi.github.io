@@ -32,7 +32,40 @@ a {
   min-height: 100vh;
   place-content: center;
   padding: 48px 24px;
+  perspective: 1100px;
   text-align: center;
+}
+
+.name-card {
+  display: grid;
+  min-width: min(86vw, 760px);
+  min-height: 260px;
+  place-content: center;
+  border: 1px solid rgba(8, 25, 47, 0);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 22px 80px rgba(8, 25, 47, 0);
+  padding: 54px 42px;
+  touch-action: none;
+  transform: rotate3d(var(--axis-x, 0), var(--axis-y, 1), 0, var(--angle, 0deg));
+  transform-style: preserve-3d;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+  user-select: none;
+  will-change: transform;
+}
+
+.name-card.is-active {
+  border-color: rgba(8, 25, 47, 0.1);
+  box-shadow: 0 22px 80px rgba(8, 25, 47, 0.08);
+}
+
+.name-card:active {
+  cursor: grabbing;
+}
+
+.name-card,
+.name-card * {
+  cursor: grab;
 }
 
 h1 {
@@ -46,6 +79,7 @@ h1 {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  pointer-events: none;
 }
 
 .email-link {
@@ -85,6 +119,11 @@ h1 {
 @media (max-width: 560px) {
   .home {
     padding: 36px 18px;
+  }
+
+  .name-card {
+    min-height: 230px;
+    padding: 42px 22px;
   }
 
   .archive-link {

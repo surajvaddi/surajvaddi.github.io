@@ -68,6 +68,10 @@ a {
   cursor: grab;
 }
 
+.email-link {
+  cursor: pointer;
+}
+
 h1 {
   margin: 0 0 28px;
   font-family: "Newsreader", Georgia, serif;

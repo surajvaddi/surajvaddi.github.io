@@ -139,7 +139,34 @@
     }
   }
 
+  function releasePointerCapture(id) {
+    if (id !== null && card.hasPointerCapture && card.hasPointerCapture(id)) {
+      card.releasePointerCapture(id);
+    }
+  }
+
+  function resetPointerState(shouldSettle) {
+    releasePointerCapture(pointerId);
+    pointerId = null;
+    totalDragX = 0;
+    totalDragY = 0;
+    moveHistory = [];
+
+    if (shouldSettle) {
+      velocity = 0;
+      settleToStandard();
+    }
+  }
+
   card.addEventListener("pointerdown", function (event) {
+    if (event.button !== 0) {
+      return;
+    }
+
+    if (event.target.closest(".email-link")) {
+      return;
+    }
+
     stopSpin();
     showCardFrame();
 
@@ -160,6 +187,11 @@
 
   card.addEventListener("pointermove", function (event) {
     if (event.pointerId !== pointerId) {
+      return;
+    }
+
+    if (event.pointerType === "mouse" && (event.buttons & 1) === 0) {
+      resetPointerState(true);
       return;
     }
 
@@ -202,8 +234,8 @@
       return;
     }
 
+    releasePointerCapture(event.pointerId);
     pointerId = null;
-    card.releasePointerCapture(event.pointerId);
 
     if (moveHistory.length >= 2) {
       var first = moveHistory[0];
@@ -227,9 +259,28 @@
       return;
     }
 
-    pointerId = null;
     stopSpin();
-    settleToStandard();
+    resetPointerState(true);
+  });
+
+  card.addEventListener("contextmenu", function () {
+    stopSpin();
+    resetPointerState(true);
+  });
+
+  card.addEventListener("lostpointercapture", function (event) {
+    if (event.pointerId !== pointerId) {
+      return;
+    }
+
+    resetPointerState(true);
+  });
+
+  window.addEventListener("blur", function () {
+    if (pointerId !== null) {
+      stopSpin();
+      resetPointerState(true);
+    }
   });
 
   if (emailLink) {

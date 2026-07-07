@@ -135,3 +135,35 @@ h1 {
     bottom: 14px;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #000000;
+    --text: #f4fbff;
+    --muted: #a4b5bd;
+    --link: #dceaf0;
+    --text-gradient: linear-gradient(135deg, #f7fbff 0%, #b7ecf7 42%, #23d0d4 78%, #50f0e4 100%);
+  }
+
+  .name-card {
+    background: rgba(0, 0, 0, 0.88);
+    border-color: rgba(198, 239, 247, 0);
+    box-shadow: 0 22px 80px rgba(0, 0, 0, 0);
+  }
+
+  .name-card.is-active {
+    border-color: rgba(124, 228, 233, 0.34);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 24px 90px rgba(35, 208, 212, 0.16);
+  }
+
+  .email-link:hover,
+  .email-link:focus-visible {
+    color: #8fdce2;
+  }
+
+  .archive-link a {
+    color: var(--muted);
+  }
+}
